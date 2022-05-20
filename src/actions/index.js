@@ -43,7 +43,6 @@ export const fetchCurrenciesThunk = () => async (dispatch) => {
     const currencies = await response.json();
     const currencyArray = Object.keys(currencies)
       .filter((currency) => currency !== 'USDT');
-    console.log(currencyArray);
     dispatch(fetchCurrenciesSuccess(currencyArray));
   } catch (error) {
     dispatch(fetchCurrenciesFail(error));
