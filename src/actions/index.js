@@ -1,8 +1,8 @@
-export const GET_CURRENCIES = 'GET_CURRENCIES';
-export const GET_CURRENCIES_SUCCESS = 'GET_CURRENCIES_SUCCESS';
-export const GET_CURRENCIES_FAIL = 'GET_CURRENCIES_FAIL';
+export const FETCH_CURRENCIES = 'FETCH_CURRENCIES';
+export const FETCH_CURRENCIES_SUCCESS = 'FETCH_CURRENCIES_SUCCESS';
+export const FETCH_CURRENCIES_FAIL = 'FETCH_CURRENCIES_FAIL';
 export const REGISTER_EXPENSE = 'REGISTER_EXPENSE';
-export const DELETE_EXPENSE = 'DELETE_EXPENSE';
+export const REMOVE_EXPENSE = 'DELETE_EXPENSE';
 export const REGISTER_USER_EMAIL = 'REGISTER_USER_EMAIL';
 
 export const registerUserEmail = (email) => ({
@@ -16,34 +16,36 @@ export const registerExpense = (expense) => ({
 });
 
 export const deleteExpense = (expense) => ({
-  type: DELETE_EXPENSE,
+  type: REMOVE_EXPENSE,
   expense,
 });
 
 const CURRENCIES_API = 'https://economia.awesomeapi.com.br/json/all';
 
-export const getCurrencies = () => ({
-  type: GET_CURRENCIES,
+export const fetchCurrencies = () => ({
+  type: FETCH_CURRENCIES,
 });
 
-export const getCurrenciesSuccess = ({ currencies }) => ({
-  type: GET_CURRENCIES_SUCCESS,
+export const fetchCurrenciesSuccess = (currencies) => ({
+  type: FETCH_CURRENCIES_SUCCESS,
   currencies,
 });
 
-export const getCurrenciesFail = (error) => ({
-  type: GET_CURRENCIES_FAIL,
+export const fetchCurrenciesFail = (error) => ({
+  type: FETCH_CURRENCIES_FAIL,
   error,
 });
 
-export const getCurrenciesThunk = () => async (dispatch) => {
-  dispatch(getCurrencies());
+export const fetchCurrenciesThunk = () => async (dispatch) => {
+  dispatch(fetchCurrencies());
   try {
     const response = await fetch(CURRENCIES_API);
     const currencies = await response.json();
-    const currencyArray = Object.keys(currencies);
-    dispatch(getCurrenciesSuccess(currencyArray));
+    const currencyArray = Object.keys(currencies)
+      .filter((currency) => currency !== 'USDT');
+    console.log(currencyArray);
+    dispatch(fetchCurrenciesSuccess(currencyArray));
   } catch (error) {
-    dispatch(getCurrenciesFail(error));
+    dispatch(fetchCurrenciesFail(error));
   }
 };

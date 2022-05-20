@@ -1,7 +1,7 @@
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
 import {
-  GET_CURRENCIES, GET_CURRENCIES_SUCCESS, GET_CURRENCIES_FAIL,
-  REGISTER_EXPENSE, DELETE_EXPENSE,
+  FETCH_CURRENCIES, FETCH_CURRENCIES_SUCCESS, FETCH_CURRENCIES_FAIL,
+  REGISTER_EXPENSE, REMOVE_EXPENSE,
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -13,13 +13,13 @@ const INITIAL_STATE = {
 
 const wallet = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-  case GET_CURRENCIES:
+  case FETCH_CURRENCIES:
     return {
       ...state,
       loading: true,
     };
 
-  case GET_CURRENCIES_SUCCESS:
+  case FETCH_CURRENCIES_SUCCESS:
     return {
       ...state,
       loading: false,
@@ -27,7 +27,7 @@ const wallet = (state = INITIAL_STATE, action) => {
       error: '',
     };
 
-  case GET_CURRENCIES_FAIL:
+  case FETCH_CURRENCIES_FAIL:
     return {
       ...state,
       loading: false,
@@ -40,7 +40,7 @@ const wallet = (state = INITIAL_STATE, action) => {
       expenses: [...state.expenses, action.expense],
     };
 
-  case DELETE_EXPENSE: {
+  case REMOVE_EXPENSE: {
     const newExpenses = [];
     return {
       ...state,
