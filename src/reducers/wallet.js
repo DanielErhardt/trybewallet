@@ -1,8 +1,8 @@
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
 import {
   GET_CURRENCIES, GET_CURRENCIES_SUCCESS, GET_CURRENCIES_FAIL,
-} from '../actions/currencies';
-import { REGISTER_EXPENSE, DELETE_EXPENSE } from '../actions/expenses';
+  REGISTER_EXPENSE, DELETE_EXPENSE,
+} from '../actions';
 
 const INITIAL_STATE = {
   currencies: [],
@@ -11,7 +11,7 @@ const INITIAL_STATE = {
   error: '',
 };
 
-const walletReducer = (state = INITIAL_STATE, action) => {
+const wallet = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case GET_CURRENCIES:
     return {
@@ -53,4 +53,4 @@ const walletReducer = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default walletReducer;
+export default wallet;
