@@ -30,8 +30,10 @@ class Wallet extends React.Component {
           </thead>
           <tbody>
             {expenses.map((expense) => {
-              const { value, description, tag, method, currency, exchangeRates } = expense;
-              const rate = Object.entries(exchangeRates).find((er) => er[0] === currency)[1];
+              const { value, description, tag, method,
+                currency, exchangeRates } = expense;
+              const rate = Object.entries(exchangeRates)
+                .find((er) => er[0] === currency)[1];
               return (
                 <tr key={ expense.id }>
                   <td>{description}</td>
