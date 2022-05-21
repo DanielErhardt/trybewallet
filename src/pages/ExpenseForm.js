@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { fetchCurrenciesThunk } from '../actions';
+import { fetchCurrenciesThunk, fetchRatesThunk, registerExpense } from '../actions';
 
 class ExpenseForm extends React.Component {
   constructor() {
@@ -19,6 +19,34 @@ class ExpenseForm extends React.Component {
   componentDidMount() {
     const { fetchCurrencies } = this.props;
     fetchCurrencies();
+  }
+
+  onExpenseRegistered = async () => {
+    const { fetchRates } = this.props;
+    await fetchRates();
+    const { value, currency, method, tag, description } = this.state;
+    const { expenses, registerNewExpense, exchangeRates } = this.props;
+    const id = expenses.length === 0 ? 0 : expenses[expenses.length - 1].id + 1;
+
+    const expense = {
+      id,
+      value,
+      currency,
+      method,
+      tag,
+      description,
+      exchangeRates,
+    };
+
+    this.setState({
+      value: 0,
+      currency: '',
+      method: '',
+      tag: '',
+      description: '',
+    });
+
+    registerNewExpense(expense);
   }
 
   handleInputChange = ({ target }) => {
@@ -54,8 +82,8 @@ class ExpenseForm extends React.Component {
             value={ currency }
             onChange={ this.handleInputChange }
           >
-            { currencies.map((currencySelect, index) => (
-              <option key={ index }>{currencySelect}</option>
+            {currencies.map((c) => (
+              <option key={ c }>{ c }</option>
             ))}
           </select>
         </label>
@@ -103,6 +131,13 @@ class ExpenseForm extends React.Component {
             onChange={ this.handleInputChange }
           />
         </label>
+
+        <button
+          type="button"
+          onClick={ this.onExpenseRegistered }
+        >
+          Adicionar despesa
+        </button>
       </div>
     );
   }
@@ -110,15 +145,23 @@ class ExpenseForm extends React.Component {
 
 ExpenseForm.propTypes = {
   fetchCurrencies: PropTypes.func.isRequired,
+  fetchRates: PropTypes.func.isRequired,
+  registerNewExpense: PropTypes.func.isRequired,
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+  expenses: PropTypes.arrayOf(PropTypes.shape).isRequired,
+  exchangeRates: PropTypes.shape.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
+  expenses: state.wallet.expenses,
+  exchangeRates: state.wallet.exchangeRates,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   fetchCurrencies: () => dispatch(fetchCurrenciesThunk()),
+  fetchRates: () => dispatch(fetchRatesThunk()),
+  registerNewExpense: (expense) => dispatch(registerExpense(expense)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExpenseForm);
