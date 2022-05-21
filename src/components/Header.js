@@ -7,10 +7,9 @@ class Header extends React.Component {
     const { email, expenses } = this.props;
     let total = 0;
     expenses.forEach((expense) => {
-      const { value, currency, exchangeRates } = expense;
-      const entries = Object.entries(exchangeRates);
-      const { ask } = entries.find((e) => e[0] === currency)[1];
-      total += value * ask;
+      const { exchangeRates, currency } = expense;
+      const rateInfo = Object.entries(exchangeRates).find((r) => r[0] === currency)[1];
+      total += expense.value * rateInfo.ask;
     });
 
     total = total.toFixed(2);

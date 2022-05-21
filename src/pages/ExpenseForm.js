@@ -3,15 +3,19 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchCurrenciesThunk, fetchRatesThunk, registerExpense } from '../actions';
 
+const DEFAULT_CURRENCY = 'USD';
+const DEFAULT_METHOD = 'Dinheiro';
+const DEAFULT_TAG = 'Alimentação';
+
 class ExpenseForm extends React.Component {
   constructor() {
     super();
 
     this.state = {
       value: 0,
-      currency: '',
-      method: '',
-      tag: '',
+      currency: DEFAULT_CURRENCY,
+      method: DEFAULT_METHOD,
+      tag: DEAFULT_TAG,
       description: '',
     };
   }
@@ -40,9 +44,9 @@ class ExpenseForm extends React.Component {
 
     this.setState({
       value: 0,
-      currency: '',
-      method: '',
-      tag: '',
+      currency: DEFAULT_CURRENCY,
+      method: DEFAULT_METHOD,
+      tag: DEAFULT_TAG,
       description: '',
     });
 
